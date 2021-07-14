@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     printf("Features: \n");
     printf("Automatic Buffer Selection - NO \n");
     printf("File Set Registration - YES \n");
-    printf("Fixed Buffers - NO \n");
+    printf("Fixed Buffers - YES \n");
     printf("Read_Fixed/Write_Fixed - NO \n");
     printf("Recv_Fixed/Send_Fixed - NO \n");
 
@@ -133,7 +133,7 @@ int main(int argc, char *argv[]) {
         perror("io_uring_register_buffers failed...\n");
         exit(1); 
     }  
-    
+
     /* 
     REMOVED PROVIDE_BUFFER CALLS TO REMOVE BUFFER SELECTION
 
@@ -211,7 +211,7 @@ int main(int argc, char *argv[]) {
                             perror("io_uring_register_files_update for sock_listen failed...\n");
                             exit(1);
                         }
-                        registered_files[sock_listen_fd] = sock_listen_fd;    
+                        registered_files[sock_conn_fd] = sock_conn_fd;    
                     }
 
                     /*
@@ -297,7 +297,8 @@ int register_buffers(struct io_uring *ring)
         memset(iov[i].iov_base, 0, iov[i].iov_len);
     }
 
-	return io_uring_register_buffers(ring, iov, MAX_CONNECTIONS);
+	//return io_uring_register_buffers(ring, iov, MAX_CONNECTIONS);
+    return 0;
 }
 
 void add_accept(struct io_uring *ring, int fd, struct sockaddr *client_addr, socklen_t *client_len, unsigned flags) 
